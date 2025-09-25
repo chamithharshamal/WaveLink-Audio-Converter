@@ -126,7 +126,7 @@ export default function FFmpegTest() {
             </Box>
           )}
           
-          {ffmpeg && !loading && (
+          {!!ffmpeg && !loading && (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 2 }}>
               <StatusIcon sx={{ backgroundColor: 'rgba(76, 175, 80, 0.1)' }}>
                 <CheckIcon sx={{ fontSize: 48, color: 'success.main' }} />
@@ -212,7 +212,7 @@ export default function FFmpegTest() {
             </Box>
           )}
           
-          {!ffmpeg && !loading && !error && (
+          {(!ffmpeg) && !loading && !error && (
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 4 }}>
               <StatusIcon sx={{ backgroundColor: 'rgba(255, 152, 0, 0.1)' }}>
                 <MemoryIcon sx={{ fontSize: 48, color: 'warning.main' }} />
