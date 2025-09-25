@@ -93,7 +93,7 @@ const FileIcon = styled(Box)(({ theme }) => ({
   color: 'white',
 }));
 
-const StatusChip = styled(Chip)(({ theme }) => ({
+const StatusChip = styled(Chip)(() => ({
   fontWeight: 'bold',
   borderRadius: '12px',
   padding: '0 5px',
@@ -253,7 +253,7 @@ export default function AudioConverter() {
   };
 
   // Download individual file
-  const downloadFile = (file: any) => {
+  const downloadFile = (file: { url: string; convertedName: string }) => {
     const a = document.createElement('a');
     a.href = file.url;
     a.download = file.convertedName;
@@ -636,7 +636,7 @@ export default function AudioConverter() {
       >
         <Alert 
           onClose={handleCloseSnackbar} 
-          severity={snackbar.severity as any}
+          severity={snackbar.severity as "success" | "info" | "warning" | "error"}
           sx={{ width: '100%', borderRadius: '6px', py: 1, px: 1.5 }}
         >
           {snackbar.message}

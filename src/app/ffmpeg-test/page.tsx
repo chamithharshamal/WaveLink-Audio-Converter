@@ -25,7 +25,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   },
 }));
 
-const StatusIcon = styled(Box)(({ theme }) => ({
+const StatusIcon = styled(Box)(() => ({
   width: '80px',
   height: '80px',
   borderRadius: '50%',

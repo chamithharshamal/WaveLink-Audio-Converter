@@ -7,6 +7,7 @@ interface FFmpegResult {
   name: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ffmpegInstance: any = null;
 let isInitialized = false;
 

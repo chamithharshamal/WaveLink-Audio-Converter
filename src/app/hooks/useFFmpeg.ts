@@ -10,8 +10,11 @@ interface FFmpegResult {
 }
 
 // We'll try to import the modules at the top level but handle errors gracefully
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let FFmpegClass: any = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let fetchFileFunc: any = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let toBlobURLFunc: any = null;
 
 // Try to load the modules when the file is imported
@@ -35,6 +38,7 @@ try {
 export const useFFmpeg = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const ffmpegRef = useRef<any>(null);
 
   const initFFmpeg = useCallback(async () => {
