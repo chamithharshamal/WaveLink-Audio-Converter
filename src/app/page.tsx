@@ -102,9 +102,9 @@ const StatusChip = styled(Chip)(({ theme }) => ({
 }));
 
 export default function AudioConverter() {
-  const [files, setFiles] = useState<any[]>([]);
+  const [files, setFiles] = useState<Array<{file: File, id: string, name: string, size: number, type: string, progress: number, status: string}>>([]);
   const [converting, setConverting] = useState(false);
-  const [convertedFiles, setConvertedFiles] = useState<any[]>([]);
+  const [convertedFiles, setConvertedFiles] = useState<Array<{id: string, originalName: string, convertedName: string, url: string, blob: Blob, size: number}>>([]);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [outputFormat, setOutputFormat] = useState('mp3');
   const { ffmpeg, loading, error, convertFile, extractAudio } = useFFmpegContext();
@@ -205,7 +205,7 @@ export default function AudioConverter() {
     } finally {
       setConverting(false);
     }
-  }, [files, ffmpeg, outputFormat]);
+  }, [files, ffmpeg, outputFormat, convertFile, extractAudio]);
 
   // Download all converted files as individual files
   const downloadAll = () => {

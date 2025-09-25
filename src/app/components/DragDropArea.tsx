@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Box, Typography, styled, keyframes, useTheme } from '@mui/material';
+import { Box, Typography, styled, keyframes } from '@mui/material';
 import { CloudUpload as UploadIcon } from '@mui/icons-material';
 
 // Animation for the drop zone

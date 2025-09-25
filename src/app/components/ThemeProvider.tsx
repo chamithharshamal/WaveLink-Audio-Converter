@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeProvider as MuiThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ReactNode, useState, createContext, useContext, useEffect } from 'react';
 import AppRouterCacheProvider from './AppRouterCacheProvider';

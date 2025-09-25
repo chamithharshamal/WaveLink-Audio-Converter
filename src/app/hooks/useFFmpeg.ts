@@ -2,6 +2,13 @@
 
 import { useState, useRef, useCallback } from 'react';
 
+// Define types
+interface FFmpegResult {
+  blob: Blob;
+  url: string;
+  name: string;
+}
+
 // We'll try to import the modules at the top level but handle errors gracefully
 let FFmpegClass: any = null;
 let fetchFileFunc: any = null;
@@ -69,7 +76,7 @@ export const useFFmpeg = () => {
   const convertFile = useCallback(async (
     file: File, 
     outputFormat: string
-  ) => {
+  ): Promise<FFmpegResult> => {
     try {
       // Check if modules are available
       if (!fetchFileFunc) {
@@ -105,7 +112,7 @@ export const useFFmpeg = () => {
     }
   }, [initFFmpeg]);
 
-  const extractAudio = useCallback(async (file: File) => {
+  const extractAudio = useCallback(async (file: File): Promise<FFmpegResult> => {
     try {
       // Check if modules are available
       if (!fetchFileFunc) {

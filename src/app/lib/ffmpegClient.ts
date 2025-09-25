@@ -1,6 +1,12 @@
 // This file contains the FFmpeg client implementation
 // We'll handle the dynamic imports carefully to avoid SSR issues
 
+interface FFmpegResult {
+  blob: Blob;
+  url: string;
+  name: string;
+}
+
 let ffmpegInstance: any = null;
 let isInitialized = false;
 
@@ -32,7 +38,7 @@ export const getFFmpeg = async () => {
   }
 };
 
-export const convertFile = async (file: File, outputFormat: string) => {
+export const convertFile = async (file: File, outputFormat: string): Promise<FFmpegResult> => {
   try {
     const ffmpeg = await getFFmpeg();
     
@@ -65,7 +71,7 @@ export const convertFile = async (file: File, outputFormat: string) => {
   }
 };
 
-export const extractAudio = async (file: File) => {
+export const extractAudio = async (file: File): Promise<FFmpegResult> => {
   try {
     const ffmpeg = await getFFmpeg();
     

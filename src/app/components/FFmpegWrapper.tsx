@@ -2,18 +2,24 @@
 
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
 
+interface FFmpegResult {
+  blob: Blob;
+  url: string;
+  name: string;
+}
+
 interface FFmpegContextType {
-  ffmpeg: any;
+  ffmpeg: unknown;
   loading: boolean;
   error: string | null;
-  convertFile: (file: File, outputFormat: string) => Promise<any>;
-  extractAudio: (file: File) => Promise<any>;
+  convertFile: (file: File, outputFormat: string) => Promise<FFmpegResult>;
+  extractAudio: (file: File) => Promise<FFmpegResult>;
 }
 
 const FFmpegContext = createContext<FFmpegContextType | null>(null);
 
 export function FFmpegProvider({ children }: { children: ReactNode }) {
-  const [ffmpeg, setFfmpeg] = useState<any>(null);
+  const [ffmpeg, setFfmpeg] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
