@@ -56,14 +56,14 @@ const StyledCard = styled(Card)(({ theme }) => ({
     : 'rgba(255, 255, 255, 0.3)',
   boxShadow: theme.palette.mode === 'dark'
     ? '0 8px 32px 0 rgba(0, 0, 0, 0.3)'
-    : '0 8px 32px 0 rgba(31, 38, 135, 0.15)',
+    : '0 8px 32px 0 rgba(33, 150, 243, 0.15)',
   borderRadius: '16px',
   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
   '&:hover': {
     transform: 'translateY(-2px)',
     boxShadow: theme.palette.mode === 'dark'
       ? '0 12px 40px 0 rgba(0, 0, 0, 0.4)'
-      : '0 12px 40px 0 rgba(31, 38, 135, 0.2)',
+      : '0 12px 40px 0 rgba(33, 150, 243, 0.2)',
   },
 }));
 
@@ -72,13 +72,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
   padding: '8px 20px',
   fontWeight: 'bold',
   textTransform: 'none',
-  background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+  background: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
   color: '#ffffff',
-  boxShadow: '0 4px 14px 0 rgba(99, 102, 241, 0.39)',
+  boxShadow: '0 4px 14px 0 rgba(33, 150, 243, 0.39)',
   transition: 'all 0.2s ease-in-out',
   '&:hover': {
-    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-    boxShadow: '0 6px 20px 0 rgba(99, 102, 241, 0.23)',
+    background: 'linear-gradient(135deg, #1e88e5 0%, #1565c0 100%)',
+    boxShadow: '0 6px 20px 0 rgba(33, 150, 243, 0.23)',
     transform: 'translateY(-1px)',
   },
   '&.Mui-disabled': {
@@ -96,8 +96,8 @@ const FileIcon = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   marginRight: '12px',
-  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
-  color: '#6366f1',
+  background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(25, 118, 210, 0.1))',
+  color: '#2196f3',
   boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
 }));
 
@@ -341,13 +341,13 @@ export default function AudioConverter() {
       >
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', minHeight: '64px', px: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <MusicIcon sx={{ mr: 1, color: '#6366f1' }} />
+            <MusicIcon sx={{ mr: 1, color: '#2196f3' }} />
             <Typography
               variant="h6"
               component="div"
               sx={{
                 fontWeight: 800,
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
+                background: 'linear-gradient(135deg, #2196f3 0%, #1976d2 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 letterSpacing: '-0.5px'
@@ -363,11 +363,11 @@ export default function AudioConverter() {
                 checked={darkMode}
                 onChange={toggleDarkMode}
                 color="default"
-                icon={<LightModeIcon sx={{ color: '#6366f1', transform: 'translateY(-2px)' }} />}
-                checkedIcon={<DarkModeIcon sx={{ color: '#8b5cf6', transform: 'translateY(-2px)' }} />}
+                icon={<LightModeIcon sx={{ color: '#2196f3', transform: 'translateY(-2px)' }} />}
+                checkedIcon={<DarkModeIcon sx={{ color: '#1976d2', transform: 'translateY(-2px)' }} />}
                 sx={{
                   '& .MuiSwitch-track': {
-                    backgroundColor: darkMode ? '#8b5cf6' : '#6366f1',
+                    backgroundColor: darkMode ? '#1976d2' : '#2196f3',
                   }
                 }}
               />
@@ -378,7 +378,7 @@ export default function AudioConverter() {
       </AppBar>
 
       <Box sx={{ textAlign: 'center', mb: 4 }}>
-        <Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 1, fontWeight: 'large' }}>
+        <Typography variant="h6" color="text.secondary" paragraph sx={{ mb: 1, fontWeight: 'medium' }}>
           Convert audio and video files to MP3, WAV, OGG, or FLAC formats
         </Typography>
 
@@ -390,7 +390,7 @@ export default function AudioConverter() {
 
       {loading && (
         <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-          <CircularProgress size={32} thickness={5} sx={{ color: '#6366f1' }} />
+          <CircularProgress size={32} thickness={5} sx={{ color: '#2196f3' }} />
           <Typography variant="body2" sx={{ ml: 1.5, mt: 0.5 }}>
             Initializing audio processing engine...
           </Typography>
@@ -431,25 +431,25 @@ export default function AudioConverter() {
                   >
                     <MenuItem value="mp3" sx={{ fontSize: '0.8rem' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MusicIcon sx={{ mr: 1, fontSize: 16 }} />
+                        <MusicIcon sx={{ mr: 1, fontSize: 16, color: '#2196f3' }} />
                         MP3
                       </Box>
                     </MenuItem>
                     <MenuItem value="wav" sx={{ fontSize: '0.8rem' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MusicIcon sx={{ mr: 1, fontSize: 16 }} />
+                        <MusicIcon sx={{ mr: 1, fontSize: 16, color: '#2196f3' }} />
                         WAV
                       </Box>
                     </MenuItem>
                     <MenuItem value="ogg" sx={{ fontSize: '0.8rem' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MusicIcon sx={{ mr: 1, fontSize: 16 }} />
+                        <MusicIcon sx={{ mr: 1, fontSize: 16, color: '#2196f3' }} />
                         OGG
                       </Box>
                     </MenuItem>
                     <MenuItem value="flac" sx={{ fontSize: '0.8rem' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <MusicIcon sx={{ mr: 1, fontSize: 16 }} />
+                        <MusicIcon sx={{ mr: 1, fontSize: 16, color: '#2196f3' }} />
                         FLAC
                       </Box>
                     </MenuItem>

@@ -82,7 +82,7 @@ export const FFmpegProvider = ({ children }: { children: ReactNode }) => {
         await ffmpegInstance.exec(['-i', fileName, outputName]);
 
         const data = await ffmpegInstance.readFile(outputName);
-        const blob = new Blob([data], { type: `audio/${format}` });
+        const blob = new Blob([data as any], { type: `audio/${format}` });
         const url = URL.createObjectURL(blob);
 
         // Cleanup input file to free memory

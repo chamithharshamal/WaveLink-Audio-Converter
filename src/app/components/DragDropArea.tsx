@@ -8,29 +8,29 @@ import { CloudUpload as UploadIcon } from '@mui/icons-material';
 const pulse = keyframes`
   0% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0.4);
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.4);
   }
   70% {
     transform: scale(1.02);
-    box-shadow: 0 0 0 12px rgba(25, 118, 210, 0);
+    box-shadow: 0 0 0 12px rgba(33, 150, 243, 0);
   }
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(25, 118, 210, 0);
+    box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
   }
 `;
 
 const DropZone = styled(Box)(({ theme }) => ({
   border: '2px dashed',
-  borderColor: theme.palette.mode === 'dark' ? 'rgba(99, 102, 241, 0.5)' : 'rgba(99, 102, 241, 0.3)',
+  borderColor: theme.palette.mode === 'dark' ? 'rgba(33, 150, 243, 0.5)' : 'rgba(33, 150, 243, 0.3)',
   borderRadius: '24px',
   padding: theme.spacing(4),
   textAlign: 'center',
   cursor: 'pointer',
   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
   background: theme.palette.mode === 'dark'
-    ? 'rgba(99, 102, 241, 0.05)'
-    : 'rgba(99, 102, 241, 0.02)',
+    ? 'rgba(33, 150, 243, 0.05)'
+    : 'rgba(33, 150, 243, 0.02)',
   position: 'relative',
   overflow: 'hidden',
   display: 'flex',
@@ -39,19 +39,19 @@ const DropZone = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   minHeight: '200px',
   '&:hover': {
-    borderColor: '#6366f1',
+    borderColor: '#2196f3',
     backgroundColor: theme.palette.mode === 'dark'
-      ? 'rgba(99, 102, 241, 0.1)'
-      : 'rgba(99, 102, 241, 0.05)',
+      ? 'rgba(33, 150, 243, 0.1)'
+      : 'rgba(33, 150, 243, 0.05)',
     transform: 'translateY(-2px)',
-    boxShadow: '0 8px 24px -12px rgba(99, 102, 241, 0.5)',
+    boxShadow: '0 8px 24px -12px rgba(33, 150, 243, 0.5)',
   },
   '&.dragging': {
     animation: `${pulse} 1.5s infinite`,
-    borderColor: '#8b5cf6',
+    borderColor: '#1976d2',
     backgroundColor: theme.palette.mode === 'dark'
-      ? 'rgba(139, 92, 246, 0.1)'
-      : 'rgba(139, 92, 246, 0.05)',
+      ? 'rgba(25, 118, 210, 0.1)'
+      : 'rgba(25, 118, 210, 0.05)',
     transform: 'scale(1.02)',
   },
 }));
@@ -60,16 +60,16 @@ const IconWrapper = styled(Box)(({ theme }) => ({
   width: '80px',
   height: '80px',
   borderRadius: '50%',
-  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
+  background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.1), rgba(25, 118, 210, 0.1))',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   marginBottom: theme.spacing(2),
   transition: 'all 0.3s ease-in-out',
-  color: '#6366f1',
+  color: '#2196f3',
   '&:hover': {
     transform: 'scale(1.1) rotate(5deg)',
-    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2))',
+    background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.2), rgba(25, 118, 210, 0.2))',
   },
 }));
 
@@ -141,8 +141,8 @@ export default function DragDropArea({ onFilesSelected, supportedFormats }: Drag
           px: 2,
           py: 0.5,
           borderRadius: '12px',
-          background: 'rgba(99, 102, 241, 0.1)',
-          color: '#6366f1',
+          background: 'rgba(33, 150, 243, 0.1)',
+          color: '#2196f3',
           fontSize: '0.75rem',
           fontWeight: 600,
           textTransform: 'uppercase',
