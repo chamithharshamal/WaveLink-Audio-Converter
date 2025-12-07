@@ -657,7 +657,7 @@ export default function AudioConverter() {
                         }
                       }}
                     >
-                      Download All
+                      Download
                     </StyledButton>
                     <StyledButton
                       variant="contained"
@@ -674,7 +674,7 @@ export default function AudioConverter() {
                         }
                       }}
                     >
-                      Download ZIP
+                     ZIP
                     </StyledButton>
                   </Box>
                 </>
