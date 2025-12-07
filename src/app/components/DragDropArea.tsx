@@ -21,30 +21,38 @@ const pulse = keyframes`
 `;
 
 const DropZone = styled(Box)(({ theme }) => ({
-  border: '3px dashed',
-  borderColor: theme.palette.primary.main,
-  borderRadius: '20px',
-  padding: theme.spacing(1),
+  border: '2px dashed',
+  borderColor: theme.palette.mode === 'dark' ? 'rgba(99, 102, 241, 0.5)' : 'rgba(99, 102, 241, 0.3)',
+  borderRadius: '24px',
+  padding: theme.spacing(4),
   textAlign: 'center',
   cursor: 'pointer',
-  transition: 'all 0.3s ease-in-out',
-  background: theme.palette.mode === 'dark' 
-    ? 'rgba(25, 118, 210, 0.05)' 
-    : 'rgba(25, 118, 210, 0.03)',
+  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+  background: theme.palette.mode === 'dark'
+    ? 'rgba(99, 102, 241, 0.05)'
+    : 'rgba(99, 102, 241, 0.02)',
   position: 'relative',
   overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  minHeight: '200px',
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' 
-      ? 'rgba(25, 118, 210, 0.1)' 
-      : 'rgba(25, 118, 210, 0.08)',
-    transform: 'translateY(-5px)',
+    borderColor: '#6366f1',
+    backgroundColor: theme.palette.mode === 'dark'
+      ? 'rgba(99, 102, 241, 0.1)'
+      : 'rgba(99, 102, 241, 0.05)',
+    transform: 'translateY(-2px)',
+    boxShadow: '0 8px 24px -12px rgba(99, 102, 241, 0.5)',
   },
   '&.dragging': {
-    animation: `${pulse} 2s infinite`,
-    borderColor: theme.palette.success.main,
-    backgroundColor: theme.palette.mode === 'dark' 
-      ? 'rgba(76, 175, 80, 0.1)' 
-      : 'rgba(76, 175, 80, 0.1)',
+    animation: `${pulse} 1.5s infinite`,
+    borderColor: '#8b5cf6',
+    backgroundColor: theme.palette.mode === 'dark'
+      ? 'rgba(139, 92, 246, 0.1)'
+      : 'rgba(139, 92, 246, 0.05)',
+    transform: 'scale(1.02)',
   },
 }));
 
@@ -52,19 +60,16 @@ const IconWrapper = styled(Box)(({ theme }) => ({
   width: '80px',
   height: '80px',
   borderRadius: '50%',
-  backgroundColor: theme.palette.mode === 'dark' 
-    ? 'rgba(25, 118, 210, 0.15)' 
-    : 'rgba(25, 118, 210, 0.1)',
+  background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1))',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  margin: '0 auto 24px',
+  marginBottom: theme.spacing(2),
   transition: 'all 0.3s ease-in-out',
+  color: '#6366f1',
   '&:hover': {
-    transform: 'scale(1.1)',
-    backgroundColor: theme.palette.mode === 'dark' 
-      ? 'rgba(25, 118, 210, 0.25)' 
-      : 'rgba(25, 118, 210, 0.2)',
+    transform: 'scale(1.1) rotate(5deg)',
+    background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2))',
   },
 }));
 
@@ -119,41 +124,34 @@ export default function DragDropArea({ onFilesSelected, supportedFormats }: Drag
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={isDragging ? 'dragging' : ''}
-        sx={{
-          borderColor: isDragging ? 'success.main' : 'primary.main',
-          backgroundColor: isDragging ? 'rgba(76, 175, 80, 0.1)' : 'rgba(25, 118, 210, 0.03)',
-        }}
       >
         <IconWrapper>
-          <UploadIcon sx={{ fontSize: 48, color: 'primary.main' }} />
+          <UploadIcon sx={{ fontSize: 40 }} />
         </IconWrapper>
-        
-        <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold' }}>
-          {isDragging ? 'Drop files here' : 'Drag & drop files here'}
+
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+          {isDragging ? 'Drop Files Now' : 'Click or Drag Files'}
         </Typography>
-        
-        <Typography variant="h5" color="text.secondary" paragraph>
-          or
+
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2, maxWidth: '80%' }}>
+          Upload audio or video files to convert them instantly
         </Typography>
-        
-        <Typography 
-          variant="h6"
-          sx={{ 
-            color: 'primary.main', 
-            fontWeight: 'bold',
-            textDecoration: 'underline',
-            cursor: 'pointer',
-            display: 'inline-block',
-          }}
-        >
-          Browse files
-        </Typography>
-        
-        <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-          Supports: {supportedFormats.join(', ').toUpperCase()}
-        </Typography>
-      
-        
+
+        <Box sx={{
+          px: 2,
+          py: 0.5,
+          borderRadius: '12px',
+          background: 'rgba(99, 102, 241, 0.1)',
+          color: '#6366f1',
+          fontSize: '0.75rem',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.5px'
+        }}>
+          Supports: {supportedFormats.slice(0, 4).join(', ').toUpperCase()} + MORE
+        </Box>
+
+
         <input
           ref={fileInputRef}
           type="file"

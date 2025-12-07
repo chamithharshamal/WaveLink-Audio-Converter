@@ -1,75 +1,104 @@
 'use client';
 
-import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-
-interface FFmpegResult {
-  blob: Blob;
-  url: string;
-  name: string;
-}
+import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import { FFmpeg } from '@ffmpeg/ffmpeg';
+import { toBlobURL } from '@ffmpeg/util';
 
 interface FFmpegContextType {
-  ffmpeg: unknown;
-  loading: boolean;
-  error: string | null;
-  convertFile: (file: File, outputFormat: string) => Promise<FFmpegResult>;
-  extractAudio: (file: File) => Promise<FFmpegResult>;
+    ffmpeg: FFmpeg | null;
+    loading: boolean;
+    error: string | null;
+    convertFile: (file: File, format: string) => Promise<{ name: string, url: string, blob: Blob }>;
+    extractAudio: (file: File) => Promise<{ name: string, url: string, blob: Blob }>;
+    ensureFFmpegLoaded: () => Promise<FFmpeg | null>;
 }
 
-const FFmpegContext = createContext<FFmpegContextType | null>(null);
+const FFmpegContext = createContext<FFmpegContextType | undefined>(undefined);
 
-export function FFmpegProvider({ children }: { children: ReactNode }) {
-  const [ffmpeg, setFfmpeg] = useState<unknown>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const useFFmpegContext = () => {
+    const context = useContext(FFmpegContext);
+    if (!context) {
+        throw new Error('useFFmpegContext must be used within a FFmpegProvider');
+    }
+    return context;
+};
 
-  useEffect(() => {
-    const initializeFFmpeg = async () => {
-      try {
-        // Only initialize in browser environment
-        if (typeof window === 'undefined') {
-          setLoading(false);
-          return;
-        }
-        
-        // Import the FFmpeg client
-        const { getFFmpeg } = await import('../lib/ffmpegClient');
-        const ffmpegInstance = await getFFmpeg();
-        
-        setFfmpeg(ffmpegInstance);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to initialize FFmpeg: ' + (err as Error).message);
-        setLoading(false);
-        console.error('FFmpeg initialization error:', err);
-      }
+export const FFmpegProvider = ({ children }: { children: ReactNode }) => {
+    const [ffmpeg, setFfmpeg] = useState<FFmpeg | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const initRef = useRef(false);
+    const initPromiseRef = useRef<Promise<FFmpeg> | null>(null);
+
+    const ensureFFmpegLoaded = async () => {
+        if (ffmpeg) return ffmpeg;
+        if (initPromiseRef.current) return initPromiseRef.current;
+        if (initRef.current) return null; // Should ideally wait, but keeping simple to avoid deadlock
+
+        initRef.current = true;
+        setLoading(true);
+        setError(null);
+
+        const load = async () => {
+            try {
+                const ffmpegInstance = new FFmpeg();
+                const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+
+                await ffmpegInstance.load({
+                    coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
+                    wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
+                });
+
+                setFfmpeg(ffmpegInstance);
+                return ffmpegInstance;
+            } catch (err) {
+                console.error('FFmpeg load error:', err);
+                const errMsg = err instanceof Error ? err.message : 'Failed to load FFmpeg';
+                setError(errMsg);
+                initRef.current = false;
+                initPromiseRef.current = null;
+                throw new Error(errMsg);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        initPromiseRef.current = load();
+        return initPromiseRef.current;
     };
-    
-    initializeFFmpeg();
-  }, []);
 
-  // Import conversion functions
-  const convertFile = async (file: File, outputFormat: string) => {
-    const { convertFile: convert } = await import('../lib/ffmpegClient');
-    return convert(file, outputFormat);
-  };
-  
-  const extractAudio = async (file: File) => {
-    const { extractAudio: extract } = await import('../lib/ffmpegClient');
-    return extract(file);
-  };
+    const convertFile = async (file: File, format: string) => {
+        const ffmpegInstance = await ensureFFmpegLoaded();
+        if (!ffmpegInstance) throw new Error('FFmpeg not loaded');
 
-  return (
-    <FFmpegContext.Provider value={{ ffmpeg, loading, error, convertFile, extractAudio }}>
-      {children}
-    </FFmpegContext.Provider>
-  );
-}
+        const fileName = file.name;
+        const fileData = await file.arrayBuffer();
 
-export function useFFmpegContext() {
-  const context = useContext(FFmpegContext);
-  if (!context) {
-    throw new Error('useFFmpegContext must be used within FFmpegProvider');
-  }
-  return context;
-}
+        await ffmpegInstance.writeFile(fileName, new Uint8Array(fileData));
+
+        const outputName = `${fileName.split('.').slice(0, -1).join('.')}.${format}`;
+
+        // Basic conversion command
+        await ffmpegInstance.exec(['-i', fileName, outputName]);
+
+        const data = await ffmpegInstance.readFile(outputName);
+        const blob = new Blob([data], { type: `audio/${format}` });
+        const url = URL.createObjectURL(blob);
+
+        // Cleanup input file to free memory
+        await ffmpegInstance.deleteFile(fileName);
+        await ffmpegInstance.deleteFile(outputName);
+
+        return { name: outputName, url, blob };
+    };
+
+    const extractAudio = async (file: File) => {
+        return convertFile(file, 'mp3'); // Default to mp3 for extraction for now
+    };
+
+    return (
+        <FFmpegContext.Provider value={{ ffmpeg, loading, error, convertFile, extractAudio, ensureFFmpegLoaded }}>
+            {children}
+        </FFmpegContext.Provider>
+    );
+};
