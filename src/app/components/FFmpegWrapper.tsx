@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useRef, useState, ReactNode } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { toBlobURL } from '@ffmpeg/util';
 
@@ -33,7 +33,7 @@ export const FFmpegProvider = ({ children }: { children: ReactNode }) => {
     const ensureFFmpegLoaded = async () => {
         if (ffmpeg) return ffmpeg;
         if (initPromiseRef.current) return initPromiseRef.current;
-        if (initRef.current) return null; // Should ideally wait, but keeping simple to avoid deadlock
+        if (initRef.current) return null; 
 
         initRef.current = true;
         setLoading(true);
@@ -82,6 +82,7 @@ export const FFmpegProvider = ({ children }: { children: ReactNode }) => {
         await ffmpegInstance.exec(['-i', fileName, outputName]);
 
         const data = await ffmpegInstance.readFile(outputName);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const blob = new Blob([data as any], { type: `audio/${format}` });
         const url = URL.createObjectURL(blob);
 

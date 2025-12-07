@@ -88,7 +88,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
   fontSize: '0.85rem',
 }));
 
-const FileIcon = styled(Box)(({ theme }) => ({
+const FileIcon = styled(Box)(() => ({
   width: '40px',
   height: '40px',
   borderRadius: '10px',
@@ -101,7 +101,7 @@ const FileIcon = styled(Box)(({ theme }) => ({
   boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
 }));
 
-const StatusChip = styled(Chip)(({ theme }) => ({
+const StatusChip = styled(Chip)(() => ({
   fontWeight: 700,
   borderRadius: '8px',
   padding: '0 8px',
@@ -120,7 +120,7 @@ export default function AudioConverter() {
   const [convertedFiles, setConvertedFiles] = useState<Array<{ id: string, originalName: string, convertedName: string, url: string, blob: Blob, size: number }>>([]);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
   const [outputFormat, setOutputFormat] = useState('mp3');
-  const { ffmpeg, loading, error, convertFile, extractAudio } = useFFmpegContext();
+  const { loading, error, convertFile, extractAudio } = useFFmpegContext();
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   // Supported formats from config
