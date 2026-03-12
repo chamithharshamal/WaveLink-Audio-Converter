@@ -2,6 +2,8 @@
 
 A Next.js application for bulk audio conversion with client-side processing using ffmpeg.wasm. This app allows users to convert audio files between different formats (MP3, WAV, OGG, FLAC) and extract audio from video files, all processed directly in the browser without server storage.
 
+<img width="1732" height="877" alt="Screenshot 2026-03-12 113338" src="https://github.com/user-attachments/assets/187e44f5-7f87-4524-b7fa-0144a4ad837b" />
+
 ## Features
 
 - Upload multiple audio/video files with drag & drop
